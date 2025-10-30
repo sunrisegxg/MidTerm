@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:midterm/services/auth_page.dart';
-import 'package:midterm/user_management_page.dart';
+import 'package:midterm/screens/user_management_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

@@ -5,8 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:midterm/services/user_service.dart';
 
-import 'components/button/btn_sign.dart';
-import 'components/textfield/textfield_cre.dart';
+import '../components/button/btn_sign.dart';
+import '../components/textfield/textfield_cre.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegisterPage;

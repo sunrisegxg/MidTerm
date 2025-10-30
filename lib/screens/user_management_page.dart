@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:midterm/login_page.dart';
+import 'package:midterm/screens/login_page.dart';
 
 import 'add_user_page.dart';
 import 'edit_user_page..dart';
