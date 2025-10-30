@@ -49,85 +49,93 @@ class _UserManagementPageState extends State<UserManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: StreamBuilder<DocumentSnapshot>(
-          stream:
-              FirebaseFirestore.instance
-                  .collection('admin')
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+        child: Builder(
+          builder: (context) {
+            final user = FirebaseAuth.instance.currentUser;
+            if (user == null) {
+              return const Center(child: Text('No admin logged in'));
             }
-            if (!snapshot.hasData || !snapshot.data!.exists) {
-              return Center(child: Text('Admin not found'));
-            }
-            final adminData = snapshot.data!;
-            return ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 16.0, top: 50.0),
-                  color: Colors.green.shade300,
-                  height: 250,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: CachedNetworkImage(
-                          imageUrl: adminData['image'],
-                          fit: BoxFit.cover,
-                          width: 80,
-                          height: 80,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        adminData['username'],
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        adminData['email'],
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30),
-                GestureDetector(
-                  onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 20,
-                    margin: EdgeInsets.only(left: 16.0, right: 140.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.green,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Log out",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
+            return StreamBuilder<DocumentSnapshot>(
+              stream:
+                  FirebaseFirestore.instance
+                      .collection('admin')
+                      .doc(user.uid)
+                      .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || !snapshot.data!.exists) {
+                  return Center(child: Text('Admin not found'));
+                }
+                final adminData = snapshot.data!;
+                return ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 16.0, top: 50.0),
+                      color: Colors.green.shade300,
+                      height: 250,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl: adminData['image'],
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            adminData['username'],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            adminData['email'],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ],
+                    SizedBox(height: 30),
+                    GestureDetector(
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 20,
+                        margin: EdgeInsets.only(left: 16.0, right: 140.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.green,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Log out",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           },
         ),

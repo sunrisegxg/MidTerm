@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _emailController.clear();
       _passwordController.clear();
       _confirmController.clear();
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 200));
       MainPage.ignoreAuthListener.value = false;
       await FirebaseAuth.instance.signOut();
     } catch (e) {
